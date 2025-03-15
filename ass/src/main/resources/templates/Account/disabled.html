@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{/layouts/template :: view(~{::main})}">
+<body>
+    <main class="container mt-4">
+        <style>
+            .user-avatar {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                object-fit: cover;
+                border: 2px solid #ddd;
+                padding: 2px;
+            }
+            .table th, .table td {
+                vertical-align: middle;
+                text-align: center;
+            }
+            .action-buttons {
+                display: flex;
+                justify-content: center;
+                gap: 5px;
+            }
+        </style>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="text-primary">Danh sách người dùng</h2>
+            <a th:href="@{/new}" class="btn btn-success">Thêm người dùng</a>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Ảnh đại diện</th>
+                        <th>Tên đăng nhập</th>
+                        <th>Email</th>
+                        <th>Vai trò</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="user : ${users}">
+                        <td th:text="${user.id}"></td>
+                        <td>
+                            <img th:if="${user.img}" th:src="${user.img}" class="user-avatar" alt="Avatar">
+                            <img th:unless="${user.img}" src="/images/default-avatar.jpg" class="user-avatar" alt="Avatar mặc định">
+                        </td>
+                        <td th:text="${user.username}"></td>
+                        <td th:text="${user.email}"></td>
+                        <td th:text="${user.role}" class="fw-bold"></td>
+                        <td class="action-buttons">
+                            <a th:href="@{/edit/{id}(id=${user.id})}" class="btn btn-warning btn-sm">Sửa</a>
+                            <a th:href="@{/delete/{id}(id=${user.id})}" class="btn btn-danger btn-sm" onclick="return confirm('Bạn chắc chắn muốn xóa?')">Xóa</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</body>
+</html>

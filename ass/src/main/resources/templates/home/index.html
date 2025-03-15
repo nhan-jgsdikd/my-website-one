@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{/layouts/template :: view(~{::main})}">
+  <head>
+  </head>
+  <body>
+    <main class="content">
+      <style>
+        header {
+            background-color: #333;
+            color: white;
+            padding: 1em;
+            text-align: center;
+            border-radius: 10px;
+        }
+        header h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+        .noidung2 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .TC-left2 {
+            width: 85%;
+            min-height: 300px;
+            background-color: #f4f4f4;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .JJK {
+          border: none;
+          height: 4px;
+          background-color: #444;
+          box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+          margin: 20px 0;
+        }
+        .LND {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 200px;
+          background-color: #f8f9fa;
+        }
+        .LNC {
+          width: 80%;
+          background-color: #ffffff;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          text-align: center;
+          font-size: 20px;
+        }
+        .static {
+          background-color: #333;
+          color: white;
+          padding: 1em;
+          text-align: center;
+          border-radius: 10px;
+        }
+        .staticing {
+          background: linear-gradient(135deg, #444, #222);
+          color: #f8f9fa;
+          padding: 1.5em;
+          text-align: center;
+          border-radius: 12px;
+          font-weight: bold;
+          font-size: 1.5em;
+          box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+          letter-spacing: 1px;
+          max-width: 80%;
+          margin: 0 auto;
+        }
+        .vertical-slide {
+          max-width: 70%;
+          max-height: 70%;
+          margin: auto;
+          border-radius: 10px;
+        }
+        .vertical-slide img {
+          max-width: 800px;
+          max-height: 800px;
+          object-fit: contain;
+          margin: auto;
+          border-radius: 10px;
+        }
+        .carousel-caption h5 {
+          font-size: 14px;
+          padding: 5px;
+        }
+        .announcement-area {
+          height: 1760px;
+          background-color: #f8f9fa;
+          border: 1px solid #000000;
+          border-radius: 8px;
+          padding: 20px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .TC-left {
+          background-color: #ebebeb;
+          border-radius: 8px;
+          padding: 20px;
+          width: 60%;
+        }
+        .layout {
+          height: 800px;
+          width: 100%;
+          padding: 20px;
+        }
+        .product-card {
+          transition: transform 0.3s ease-in-out;
+        }
+        .product-card:hover {
+          transform: scale(1.05);
+          box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .product-img {
+          height: 500px;
+          border-top-left-radius: 8px;
+          border-top-right-radius: 8px;
+        }
+        .the-void {
+          border: 1px solid #000000;
+          background-color: #f2f2f2;
+          border-radius: 10px;
+          margin-bottom: 20px;
+          text-align: center;
+        }
+        .the-void p {
+          font-size: 30px;
+          font-weight: bold;
+        }
+        .carousel-control-prev,
+        .carousel-control-next {
+          width: 50px;
+          height: 50px;
+          background-color: rgba(0, 0, 0, 0.5);
+          border-radius: 50%;
+          border: 2px solid #fff;
+          top: 50%;
+          transform: translateY(-50%);
+          opacity: 0.8;
+          transition: opacity 0.3s ease, background-color 0.3s ease;
+        }
+        .carousel-control-prev:hover,
+        .carousel-control-next:hover {
+          opacity: 1;
+          background-color: rgba(0, 0, 0, 0.7);
+        }
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+          width: 40px;
+          height: 30px;
+          background-size: 100%, 100%;
+          filter: invert(1);
+        }
+        .carousel-control-prev {
+          left: -65px;
+        }
+        .carousel-control-next {
+          right: -65px;
+        }
+        .carousel-item {
+          transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+          transform: scale(0.9);
+          opacity: 0;
+        }
+        .carousel-item.active {
+          transform: scale(1);
+          opacity: 1;
+        }
+        .noi-dung {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 20px;
+        }
+        .noi-dung h1 {
+          text-align: center;
+          font-size: 24px;
+          font-weight: bold;
+          margin-bottom: 10px;
+        }
+        .product-list {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+          gap: 20px;
+          padding: 10px;
+          justify-content: center;
+        }
+        .product-card {
+          background: #fff;
+          border-radius: 12px;
+          overflow: hidden;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          text-align: center;
+        }
+        .product-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        .product-image img {
+          width: 100%;
+          height: 300px;
+          object-fit: cover;
+          border-bottom: 2px solid #eee;
+        }
+        .product-info {
+          padding: 10px;
+        }
+        .product-title {
+          font-size: 16px;
+          font-weight: bold;
+          color: #333;
+          margin-top: 8px;
+        }
+        .new-products, .news-updates, .contact-info {
+          margin-bottom: 30px;
+        }
+        .new-products .product {
+          background-color: #fff;
+          color: #000;
+          padding: 10px;
+          border-radius: 10px;
+          margin-bottom: 15px;
+          text-align: center;
+        }
+        .new-products .product img {
+          max-width: 100%;
+          height: auto;
+          border-radius: 10px;
+          border: 1px solid black;
+          margin-top: 10px;
+        }
+        .new-products .product p {
+          margin: 10px 0;
+          font-size: 18px;
+        }
+        .new-products .product b {
+          margin: 10px 0;
+          font-size: 18px;
+        }
+        .news-updates .news-item {
+          margin-bottom: 15px;
+        }
+        .news-item img {
+          max-width: 100%;
+          height: auto;
+          border-radius: 10px;
+        }
+        .contact-info img {
+          width: 100%;
+          margin-top: 20px;
+          border-radius: 10px;
+        }
+        .Tong-quat {
+          margin-top: 50px;
+          width: 100%;
+          height: auto;
+          background-color: #bdbdbd;
+          border-radius: 10px;
+          border: 1px solid black;
+        }
+        .sys-hr {
+          border: none;
+          height: 2px;
+          background: linear-gradient(to right, #000000, #ffffff);
+          margin: 20px 0;
+        }
+        .logo-web {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+          height: 80px;
+        }
+        .fUT-logo {
+          width: 30%;
+          height: 100%;
+        }
+        .fUT-logo img {
+          margin: 15px;
+          width: 80px;
+          height: auto;
+          border-radius: 20%;
+          margin-right: 10px;
+          border: 2px solid #020202;
+        }
+        .FUT-link {
+          margin-top: 50px;
+          width: 20%;
+          height: 100%;
+        }
+        .FUT-link img {
+          border: 3px solid rgb(255, 255, 255);
+          width: 50px;
+          height: auto;
+          border-radius: 30%;
+          margin-right: 10px;
+        }
+        .new {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 20px;
+          padding: 20px;
+        }
+        .new > div {
+          background-color: #858181;
+          border: 1px solid #000000;
+          border-radius: 8px;
+          padding: 20px;
+          width: 100%;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .new h1 {
+          font-size: 20px;
+          color: #ffffff;
+          margin-bottom: 15px;
+          text-align: center;
+        }
+        .new ul {
+          list-style-type: none;
+          padding: 0;
+          margin: 0;
+        }
+        .new li {
+          font-size: 16px;
+          line-height: 1.6;
+          color: #fffefe;
+        }
+        #modalProductImage {
+          width: 100%;
+          height: auto;
+          max-height: 600px;
+          object-fit: cover;
+          border-radius: 10px;
+          border: 2px solid #ddd;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          margin-bottom: 20px;
+        }
+        .modal-content {
+
+          border-radius: 15px;
+          overflow: hidden;
+        }
+        .modal-body {
+          padding: 20px;
+        }
+        #modalProductName {
+          font-size: 24px;
+          font-weight: bold;
+          margin-bottom: 15px;
+        }
+        #modalProductDescription {
+          font-size: 16px;
+          color: #555;
+          line-height: 1.6;
+          margin-bottom: 15px;
+        }
+        #modalProductPrice {
+          font-size: 18px;
+          color: #333;
+          font-weight: bold;
+        }
+        .view-more {
+          width: 100%;
+          background-color: #b9b7b7;
+          margin-top: 30px;
+          margin-left: 7px;
+          border-radius: 10px;
+          height: 60px;
+        }
+        .view-more a {
+          text-align: center;
+          color: black;
+          text-decoration: none;
+        }
+        .noidung {
+
+        display: flex;
+        align-items: flex-start;
+        gap: 20px; 
+        background-color: #f9f9f9; 
+        padding: 20px; 
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+        border-radius: 10px;
+        }
+
+        .anh {
+        width: 22%;
+        }
+
+        .anh img {
+        width: 300px; 
+        height: auto; 
+        border-radius: 10px; 
+        border: 1px solid black;
+        }
+        .noidung-chinh {
+        flex: 1; 
+        }
+
+        .noidung-chinh ul {
+        align-items: center;
+        width: 100%;
+        list-style-type: none;
+        padding-left: 50px;
+        }
+
+        .noidung-chinh li {
+        margin-bottom: 10px; 
+        font-size: 20px; 
+        color: #333; 
+        font-weight: bold;
+        text-align: left;
+        }
+
+        .noidung-chinh p {
+        margin-bottom: 10px; 
+        color: #333; 
+        text-align: left;
+        }
+
+
+
+
+      </style>
+
+      <div class="container mt-5">
+        <h1 class="static mb-4">Trang chủ</h1>
+        <div class="LND">
+          <div class="LNC">
+            <ul>
+              <li>Trang Tập hợp toàn bộ bản dịch Light Novel Tiếng Việt có trên mạng.</li>
+              <li>Tạo điều kiện cho các nhóm dịch Light Novel chia sẻ, quảng bá và thảo luận thành quả của họ.</li>
+              <li>Giúp người đọc tiếp cận với Light Novel một cách trực quan thông qua hệ thống đọc online chuyên biệt.</li>
+              <li>Tốc độ được đặt lên trên hết, trang sử dụng server riêng và có khả năng lưu trữ toàn bộ dữ liệu.</li>
+              <li>Giao diện đọc online được tối ưu hóa với chức năng tăng size font và giãn cách line.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="row mt-5 align-items-start">
+          <div class="col-md-8 TC-left">
+            <div class="the-void">
+              <br>
+              <p>Tác Phẩm Được Người Đọc Bình Chọn của trang</p>
+              <br>
+              <li>là tác phẩm được bình chọn theo tuần nên sẻ được cập nhật liên tục</li>
+            </div>
+            <div class="layout">
+              <div id="verticalCarousel" class="carousel slide vertical-slide carousel-fade" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                  <th:block th:each="product, iterStat : ${indexstaff}">
+                    <div th:class="${iterStat.first} ? 'carousel-item active' : 'carousel-item'">
+                      <img th:src="${product.photo}" class="d-block w-100" alt="Product Image" />
+                    </div>
+                  </th:block>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#verticalCarousel" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#verticalCarousel" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+            </div>
+            <br>
+            <div class="noi-dung">
+              <h1>Chương Mới Ra Mắt</h1>
+              <hr>
+              <div class="product-list">
+                <th:block th:each="product : ${indexnewproducts}">
+                  <div class="product-item">
+                    <div class="product-card"
+                      th:attr="data-product-id=${product.id}, data-product-name=${product.nameproduct}, data-product-photo=${product.photo}, data-product-description=${product.description}, data-product-price=${product.price}">
+                      <div class="product-image">
+                        <img th:src="${product.photo}" alt="Product Image" />
+                      </div>
+                    </div>
+                  </div>
+                </th:block>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="announcement-area">
+              <h3 style="text-align: center;">Tin Tức Mới Cập Nhật</h3>
+              <div class="new-products">
+                <div class="product">
+                  <b>Bộ sưu tập mới của nhà sách Kim Đồng</b>
+                  <a href="https://vnexpress.net/chuoi-nha-sach-phuong-nam-lo-quy-dau-nam-4272699.html">
+                    <img src="https://vcdn1-kinhdoanh.vnecdn.net/2021/05/04/119729418-108855484299775-2424-5615-9791-1620144743.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=ChgdPEUIT4xTlNWTRQ0IjQ" alt="Sản phẩm mới 1">
+                  </a>
+                </div>
+                <div class="product">
+                  <b>Sản phẩm mới của tác giả Kamishiro Kyosuke</b>
+                  <a href="https://sach.nhuttruong.com/con-gai-me-ke-la-ban-gai-cu-cua-toi-tap-1-kamishiro-kyousuke/">
+                    <img src="https://sach.nhuttruong.com/wp-content/uploads/2023/07/022.jpg" alt="Sản phẩm mới 2">
+                  </a>
+                </div>
+              </div>
+              <hr>
+              <br>
+              <div class="news-updates">
+                <div class="news-item">
+                  <p>Công Bố Chuyển Thể Anime <b>sword art online</b></p>
+                  <a href="https://www.manganetworkplus.com/nong-sword-art-online-progressive-se-duoc-chuyen-the-thanh-anime/">
+                    <img src="/img/light.jpg" alt="Tin Tức 2">
+                  </a>
+                </div>
+                <br>
+                <div class="news-item">
+                  <p>Light Novel được yêu thích nhất theo đề cử <a href="https://vnlnranking.moe/">vnlnranking</a></p>
+                  <a href="https://vnlnranking.moe/leaderboard">
+                    <img src="/img/Screenshot.png" alt="Tin Tức 2">
+                  </a>
+                </div>
+              </div>
+              <hr>
+              <div class="contact-info">
+                <h2 style="text-align: center;">Thông Tin - Liên Hệ</h2>
+                <a href="/about">
+                  <img src="/img/thumb-350-1342645.png" alt="">
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <br><br><br><br>
+        <hr class="JJK">
+        <h1 class="staticing mb-4">Các Tác Phẩm Nổi Bật Của Một Số tác giả nổi tiếng</h1>
+        <hr class="JJK">
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mt-5">
+          <th:block th:each="product : ${indexstaff}">
+            <div class="col">
+              <div class="card product-card h-100 d-flex flex-column border-0 rounded-3 overflow-hidden shadow-sm hover-transform"
+                th:attr="data-product-id=${product.id}, data-product-name=${product.nameproduct}, data-product-photo=${product.photo}, data-product-description=${product.description}, data-product-price=${product.price}">
+                <div class="image-container">
+                  <img th:src="${product.photo}" class="card-img-top product-img img-fluid" alt="Product Image" />
+                </div>
+                <div class="card-body text-center flex-grow-1 d-flex flex-column justify-content-between p-4">
+                  <h5 th:text="${product.nameproduct}" class="card-title text-dark fw-bold mb-2"></h5>
+                </div>
+              </div>
+            </div>
+          </th:block>
+        </div>
+
+
+
+
+
+
+
+
+
+
+        <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="productModalLabel">Chi tiết sản phẩm</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <img id="modalProductImage" src="" class="img-fluid" alt="Product Image">
+                  </div>
+                  <div class="col-md-6">
+                    <h3 id="modalProductName"></h3>
+                    <p id="modalProductDescription" class="mt-3"></p>
+                    <p id="modalProductPrice" class="mt-3"></p>
+                    <div class="view-more">
+                      <a href="/products">
+                        <h1>Xem Thêm</h1>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+        
+      
+      <br><br><br>
+      <header>
+        <h1>Những Sản Phẩm Sắp Được Cho Ra Mắt</h1>
+    </header>
+        <div class="noidung2">
+          
+            <div class="TC-left2"></div>
+     
+
+        </div>
+
+
+
+
+
+    <div class="Tong-quat">
+      <div class="logo-web">
+        <div class="fUT-logo">
+          <li><a href="/"><img src="/img/logotrungthu.jpg" alt=""></a></li>
+        </div>
+        <div class="FUT-link">
+          <img src="/img/fb.png" alt="">
+          <img src="/img/wk.png" alt="">
+          <img src="/img/yt.png" alt="">
+          <img src="/img/tt.png" alt="">
+        </div>
+      </div>
+      <hr class="sys-hr">
+      <div class="new">
+        <div class="new-pp">
+          <ul>
+            <h1>Giới Thiệu</h1>
+            <li>
+              Hiện Cổng Light Novel mở thêm một trang "Thảo luận" nơi các bạn tụ họp để cùng bạn luận chém gió những Light Novel các bạn yêu thích.
+              <br>
+              Do mới cập nhật nên có thể có lỗi xảy ra nên mời các bạn vào đây để báo lại với bọn mình sớm nhất có thể. Các bạn sẽ dùng acc của Cổng Light Novel để "tạo trang" vào "bình luận".
+              Cảm ơn các bạn đã quan tâm.
+            </li>
+          </ul>
+        </div>
+        <div class="new-pp2">
+          <ul>
+            <h1>Về chúng tôi</h1>
+            <li>
+              Chúng tôi là một nhóm dịch viên đam mê với nhiều năm kinh nghiệm trong ngành dịch thuật. Chúng tôi chuyên dịch các tác phẩm văn học, sách, và nội dung đa phương tiện với sự chính xác và nhiệt huyết
+              <br>
+              Sứ mệnh của chúng tôi là mang đến những bản dịch chất lượng cao nhất, giúp kết nối các nền văn hóa và mang lại trải nghiệm đọc tuyệt vời cho bạn đọc.
+              <br>Chúng tôi không chỉ là những dịch giả chuyên nghiệp mà còn là những người đam mê với văn hóa và ngôn ngữ. Sự yêu thích và tinh thần trách nhiệm của chúng tôi đảm bảo rằng mỗi bản dịch đều được thực hiện với sự chăm sóc và sự tôn trọng tối đa đối với tác phẩm gốc.
+            </li>
+          </ul>
+        </div>
+        <div class="new-pp3">
+          <ul>
+            <h1>Đối Với Đọc giả của trang</h1>
+            <li>
+              Tôi rất thích các bản dịch trên trang web này. Chúng không chỉ chính xác mà còn giữ được phong cách và cảm xúc của tác phẩm gốc.
+              <br>
+              Trang web của chúng tôi nhận được nhiều đánh giá tích cực từ độc giả với sự hài lòng cao về chất lượng dịch và dịch vụ khách hàng.
+              <br>
+              Chúng tôi luôn lắng nghe và tiếp thu góp ý từ độc giả để không ngừng cải thiện chất lượng dịch vụ. Đừng ngần ngại gửi ý kiến của bạn cho chúng tôi!
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+      <script>
+
+const products2 = [
+            {
+                imgSrc: "/js/vicongai.jpg",
+                title: "Vì Con Gái Tôi Có Thể Đánh Bại Cả Ma Vương",
+                publisher: "Sky Light Novel phát hành",
+                author: "CHIROLU",
+                translator: "Minh Phương",
+                releaseDate: "13/06/2024",
+                price: "135.000đ",
+                description: "Sau khi trải qua quãng thời gian mà các nhà sử học đời sau chỉ có thể than thở rằng “Đã có rất nhiều chuyện xảy ra”, Dale và Latina đã trở về Kreuz, hay nói cách khác là quay về với “những ngày bình dị” của họ. Điều khiến Latina hạnh phúc nhất khi trở về chính là được thưởng thức những món ăn ngon"
+            },
+            {
+                imgSrc: "/js/mecungthuvien01e1696476355825.webp",
+                title: "Mê Cung Của Những Thư Viện",
+                publisher: "Amak phát hành",
+                author: "Shiraishi Jougi",
+                translator: "Beast666",
+                releaseDate: "30/07/2024",
+                price: "139.000đ",
+                description: "Năm năm trước, cha của Okutsuki Soushi, pháp sư vĩ đại của Thành phố Thư viện Alexandria, đã bị giết hại dã man trong mê cung ngay trước mắt con trai mình. Sau sự kiện này, Soushi đã bị sang chấn tâm lý, mất đi ký ức và khả năng sử dụng phép thuật. Năm năm sau, ngay trong ngày đầu tiên trở lại Alexandria, cậu đã gặp “High Daylight Walker” Arteria và bị cô ta biến thành ma cà rồng. Kể từ đó, cậu cùng Arteria dấn thân vào Mê cung Thư viện hòng tìm ra kẻ thù đang lẩn trốn, để có thể thoát khỏi nỗi khổ tâm giày vò suốt năm năm, cũng là để hoàn thành ước mơ của mình. Hãy nhớ lấy điều này: bạn phải tìm ra kẻ thù giết cha đang lẩn trốn trong bóng đen của chấn thương tâm lý. Bạn phải lấy lại phép thuật đã mất, phải giành lại danh dự đã bị đánh cắp. "
+            },
+            {
+                imgSrc: "/js/ary.jpeg",
+                title: "Arya-san bàn bên thi thoảng lại thả thính tôi bằng tiếng Nga",
+                publisher: "Thái Hà Books phát hành",
+                author: "Hachimoku Mei",
+                translator: "Nguyễn Thị Thu Hằng",
+                releaseDate: "29/06/2024",
+                price: "119.000đ",
+                description: "“И наменятоже обрати внимание” “Eh, gì vậy?” “Chẳng có gì cả đâu? Mình chỉ vừa mới nói ‘Tên này đúng là ngốc thật mà’ thôi” “Cậu có thể ngừng việc quăng ra mấy lời xúc phạm mình bằng tiếng Nga được không!?” Cô gái mang mái tóc bạch kim xinh đẹp tuyệt trần khó có ai có thể sánh bằng ấy đang ngồi cạnh tôi, Arya-san, nở một nụ cười đắc chí... nhưng, sự thật thì lại hoàn toàn khác. Vừa xong, cô ấy đã nói “Tớ cũng muốn được cậu chú ý nữa” bằng tiếng Nga! Thực ra, tôi, Kuze Masachika, sở hữu kỹ năng đọc-nghe-hiểu tiếng Nga đạt đến mức thượng thừa ngang người bản địa luôn rồi. Tôi không thể ngăn bản thân nở một nụ cười thích thú trước một Arya-san đang không hề hay biết gì về điều đó, người mà hôm nay, cũng đang nói ra những lời rất ngọt ngào bằng tiếng Nga!? "
+            },
+            {
+                imgSrc: "/js/Date-a-Live.jpg",
+                title: "Date A Live",
+                publisher: "Nhã Nam phát hành",
+                author: "Miyazawa Iori",
+                translator: "Nguyễn Dương Quỳnh",
+                releaseDate: "08/07/2023",
+                price: " 150.000đ",
+                description: "Trước khi tận thế , hãy giết hoặc hôn em đi 30 năm trước, một hiện tượng kỳ lạ được gọi là không gian chấn đã tàn phá trung tâm của lục địa Á-Âu, đe dọa mạng sống của ít nhất 150 triệu người. Từ đó, những trận không chấn nhỏ hơn đã làm thế giới trở nên bất thường.Itsuka Shidou là một học sinh trung học bình thường. Thế nhưng, trong ngày đầu tiên đi học trở lại sau kỳ nghỉ xuân, một đợt không gian chấn giáng xuống thành phố. Shidou, đi tìm em gái trong thiên tai, đã gặp gỡ một cô gái cầm trọng kiếm sau một cơn không gian chấn.Em gái của Shidou, Kotori, sau đó tiết lộ với cậu cô gái đó là một sinh vật gọi là tinh linh và là nguyên nhân gây ra các đợt không gian chấn. Đồng thời Kotori cũng tiết lộ mình là một trong những lãnh đạo của tổ chức Ratatoskr"
+            },
+            {
+                imgSrc: "/js/monogatari.webp",
+                title: "Monogatari Series",
+                publisher: "IPM phát hành",
+                author: "Nisioisin",
+                translator: "Thu Hà",
+                releaseDate: "09/02/2023",
+                price: "115.000đ",
+                description: "Giữa thời đại của động cơ tuyến tính và tàu đệm từ trường siêu tốc, nam sinh cấp ba Araragi Koyomi bị ma cà rồng tấn công tại một thị trấn vùng quê Nhật Bản, nhờ một ông chú vô gia cư lôi thôi tình cờ đi qua ra tay cứu giúp mới thoát nạn và biến thành “thứ” nửa người nửa ngợm. Kể từ sau sự kiện mang..."
+            },
+            {
+                imgSrc: "/js/Fatestrange.jpg",
+                title: "Fate/strange Fake",
+                publisher: "Ai Novel phát hành",
+                author: "Amasawa Natsuki",
+                translator: "Trang Ngọc",
+                releaseDate: "12/08/2022",
+                price: "125.000đ",
+                description: "Cốt truyện tập trung vào một cuộc Chiến tranh Chén Thánh bị sao chép không đúng từ Chiến tranh Chén Thánh Thứ Ba tại Fuyuki. Sau cuộc Chiến tranh Chén Thánh thứ ba, một tổ chức từ Hoa Kỳ có pháp sư riêng biệt từ Hội Pháp sư có trụ sở tại London đã lấy dữ liệu từ Chiến tranh Chén Thánh tại Fuyuki và lên kế hoạch cho nghi thức riêng của họ. Sau bảy mươi năm, họ đã sử dụng thành phố Snowfield như Đất Thánh cho Chiến tranh Chén Thánh của họ. Họ không thể sao chép mọi khía cạnh của nghi thức thành công, điều này đã khiến nó chỉ hoạt động như một bản sao đã mất lớp Saber và cho phép triệu hồi các Phục vụ lạ do định nghĩa của một anh hùng bị mờ."
+            },
+        ];
+
+        function renderProducts2() {
+            const container = document.querySelector('.TC-left2');
+            container.innerHTML = ''; 
+
+            products2.forEach(product => {
+                const productHTML = `
+                    <div class="noidung">
+                        <div class="anh">
+                            <img src="${product.imgSrc}" alt="${product.title}">
+                        </div>
+                        <div class="noidung-chinh">
+                            <ul>
+                                <li>${product.title}</li>
+                                <p>${product.publisher}</p>
+                                <i><b>Thông tin thêm</b></i>
+                                <p><b>Tác Giả : </b>${product.author}</p>
+                                <p><b>Dịch Giả : </b>${product.translator}</p>
+                                <p><b>Ngày Phát Hành : </b>${product.releaseDate}</p>
+                                <p><b>Giá Bán :</b><a>${product.price}</a></p>
+                                <hr>
+                                <b>${product.description}</b>
+                            </ul>
+                        </div>
+                    </div>
+                    <br>
+                `;
+                container.innerHTML += productHTML;
+            });
+        }
+
+        // Gọi hàm renderProducts2 khi trang được tải
+        document.addEventListener('DOMContentLoaded', renderProducts2);
+
+
+
+
+        function limitDescription(text, limit) {
+          if (text.length > limit) {
+            return text.substring(0, limit) + '...';
+          }
+          return text;
+        }
+
+        $(document).ready(function() {
+          $('.product-card').on('click', function() {
+            var productId = $(this).attr('data-product-id');
+            var productName = $(this).attr('data-product-name');
+            var productPhoto = $(this).attr('data-product-photo');
+            var productDescription = $(this).attr('data-product-description');
+            var productPrice = $(this).attr('data-product-price');
+            var limitedDescription = limitDescription(productDescription, 600);
+            $('#modalProductName').text(productName);
+            $('#modalProductImage').attr('src', productPhoto);
+            $('#modalProductDescription').text(limitedDescription);
+            if (productPrice) {
+              $('#modalProductPrice').text('Giá: ' + productPrice + ' VNĐ');
+            } else {
+              $('#modalProductPrice').text('Giá: Chưa cập nhật');
+            }
+            $('#productModal').modal('show');
+          });
+        });
+      </script>
+    </main>
+  </body>
+</html>

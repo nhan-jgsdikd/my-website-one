@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{/layouts/template :: view(~{::main})}">
+<body>
+    <main class="content">
+        <style>
+            body, html {
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                height: 100%;
+            }
+            .Tonglayout {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                height: 100vh;
+                width: 100%;
+                background-color: #ffffff;
+                overflow: hidden;
+            }
+            .bi {
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                height: 370px;
+                width: 100%;
+                border-radius: 0 0 10px 10px;
+                margin-bottom: 20px;
+            }
+            .avt {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: 30vh;
+                width: 74%;
+                background-color: rgb(188, 188, 188);
+                border-radius: 0 0 10px 10px;
+                overflow: visible;
+            }
+            .avt .overlay-img {
+                position: absolute;
+                bottom: -120px;
+                left: 70px;
+                width: 185px;
+                height: 185px;
+                border-radius: 50%;
+                border: 3px solid #ffffff;
+                object-fit: cover;
+                transform: translate(-20%, 20%);
+                z-index: 2;
+                overflow: hidden;
+            }
+            hr {
+                width: 80%;
+                border: none;
+                height: 2px;
+                background: linear-gradient(to right, #000000, #000000, #000000);
+                margin: 20px auto;
+                border-radius: 2px;
+            }
+            .fortity {
+                margin-top: 360px;
+                margin-right: 400px;
+            }
+            .fortity h2 {
+                font-size: 40px;
+                font-weight: bold;
+                color: #333;
+                text-align: left;
+            }
+            .pap {
+                font-size: 20px;
+                font-weight: bold;
+                color: #333;
+            }
+            .edit {
+                margin-top: -30px;
+                margin-right: -850px;
+                font-size: 20px;
+                font-weight: bold;
+                color: #333;
+                text-align: center;
+            }
+            .modal-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                visibility: hidden;
+                opacity: 0;
+                transition: opacity 0.3s ease-in-out;
+            }
+            .modal-overlay.show {
+                visibility: visible;
+                opacity: 1;
+            }
+            .modal-content {
+                background: #fff;
+                padding: 20px;
+                width: 400px;
+                border-radius: 12px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+                position: relative;
+                animation: fadeIn 0.3s ease-in-out;
+            }
+            @keyframes fadeIn {
+                from { transform: translateY(-20px); opacity: 0; }
+                to { transform: translateY(0); opacity: 1; }
+            }
+            .close-btn {
+                position: absolute;
+                top: 10px;
+                right: 15px;
+                font-size: 24px;
+                cursor: pointer;
+            }
+            .form-group {
+                margin-bottom: 15px;
+            }
+            .form-label {
+                font-weight: bold;
+                display: block;
+                margin-bottom: 5px;
+            }
+            .form-input {
+                width: 100%;
+                padding: 8px;
+                border: 1px solid #ccc;
+                border-radius: 6px;
+            }
+            .avatar-group {
+                text-align: center;
+            }
+            .avatar-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .avatar-preview {
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                object-fit: cover;
+                border: 2px solid #ccc;
+                margin-bottom: 10px;
+            }
+            .btn-group {
+                display: flex;
+                justify-content: space-between;
+            }
+            .btn {
+                padding: 10px 15px;
+                border: none;
+                border-radius: 6px;
+                cursor: pointer;
+                font-weight: bold;
+            }
+            .btn-primary {
+                background: #007bff;
+                color: white;
+            }
+            .btn-secondary {
+                background: #ccc;
+                color: black;
+            }
+        </style>
+
+        <div class="Tonglayout">
+            <div class="bi">
+                <div class="avt">
+                    <img class="overlay-img" th:src="${user.img != null} ? @{${user.img}} : @{/images/default-avatar.jpg}" alt="Ảnh đại diện">
+                    <div class="fortity">
+                        <h2 th:text="${user.username}">Tên người dùng</h2>
+                        <p class="pap">Email: <span th:text="${user.email}"></span></p>
+                    </div>
+                    <button class="edit" onclick="openModal()">Chỉnh sửa trang cá nhân</button>
+                </div>
+            </div>
+            <hr>
+            <div class="modal-overlay" id="editModal">
+                <div class="modal-content">
+                    <span class="close-btn" onclick="closeModal()">&times;</span>
+                    <h2>Chỉnh sửa tài khoản</h2>
+                    <form th:action="@{/update-account}" method="post" enctype="multipart/form-data">
+                        <div class="form-group avatar-group">
+                            <label class="form-label">Ảnh đại diện</label>
+                            <div class="avatar-container">
+                                <img id="avatarPreview" th:src="${user.img != null} ? @{${user.img}} : @{/images/default-avatar.jpg}" class="avatar-preview">
+                                <input type="file" name="file" id="avatarInput" accept="image/*" class="form-input" onchange="previewImage(event)">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Tên người dùng</label>
+                            <input type="text" name="username" th:value="${user.username}" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" name="email" th:value="${user.email}" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Mật khẩu mới</label>
+                            <input type="password" name="password" class="form-input" placeholder="Để trống nếu không đổi">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Xác nhận mật khẩu</label>
+                            <input type="password" name="confirmPassword" class="form-input" placeholder="Để trống nếu không đổi">
+                        </div>
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                            <button type="button" class="btn btn-secondary" onclick="closeModal()">Hủy bỏ</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function openModal() {
+                document.getElementById("editModal").classList.add("show");
+            }
+            function closeModal() {
+                document.getElementById("editModal").classList.remove("show");
+            }
+            function previewImage(event) {
+                const reader = new FileReader();
+                reader.onload = function () {
+                    document.getElementById("avatarPreview").src = reader.result;
+                };
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        </script>
+    </main>
+</body>
+</html>

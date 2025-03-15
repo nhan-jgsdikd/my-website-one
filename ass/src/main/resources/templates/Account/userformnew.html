@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{/layouts/template :: view(~{::main})}">
+<body>
+  <main th:fragment="main" class="container mt-4">
+    <style>
+      .card {
+        max-width: 500px; 
+        margin: auto; 
+        padding: 20px; 
+        border-radius: 10px; 
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+      .avatar-preview {
+        width: 120px; 
+        height: 120px; 
+        border-radius: 50%; 
+        object-fit: cover; 
+        border: 3px solid #dee2e6; 
+        cursor: pointer;
+        transition: all 0.3s ease; 
+        display: block; 
+        margin: 10px auto;
+    }
+
+      .avatar-preview:hover {
+        border-color: #2c2c2c; 
+        transform: scale(1.05);
+    }
+
+      .form-text {
+        text-align: center; 
+        font-size: 14px; 
+        color: #6c757d;}
+
+      .password-note {
+        font-size: 0.9em; 
+        color: #6c757d; 
+        margin-top: 0.5rem;
+    }
+    </style>
+    <div class="card">
+      <h2 class="text-center mb-4">Thêm người dùng</h2>
+      <form th:action="@{/newsave}" th:object="${user}" method="post" enctype="multipart/form-data">
+        <input type="hidden" th:field="*{id}">
+        <div class="text-center mb-4">
+          <label class="form-label d-block">Ảnh đại diện</label>
+          <label for="avatarInput" class="d-inline-block">
+            <img th:src="${user.img} ?: @{/images/default-avatar.jpg}" class="avatar-preview" id="avatarPreview" alt="Avatar preview">
+          </label>
+          <input type="file" id="avatarInput" class="d-none" name="avatarFile" accept="image/*" onchange="previewImage(this)">
+          <input type="hidden" th:field="*{img}">
+          <div class="form-text">Nhấn vào ảnh để thay đổi</div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Tên người dùng</label>
+          <input type="text" class="form-control" th:field="*{username}" required placeholder="Nhập tên người dùng">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-control" th:field="*{email}" required placeholder="example@email.com">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Mật khẩu</label>
+          <input type="password" class="form-control" th:field="*{password}" placeholder="Nhập mật khẩu" required>
+        </div>
+        <div class="d-grid gap-2 mt-4">
+          <button type="submit" class="btn btn-primary btn-lg">Lưu thay đổi</button>
+          <a th:href="@{/adminusers}" class="btn btn-outline-secondary">Quay lại</a>
+        </div>
+      </form>
+    </div>
+    <script>
+      function previewImage(input) {
+        const preview = document.getElementById('avatarPreview');
+        const file = input.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            preview.src = e.target.result;
+          }
+          reader.readAsDataURL(file);
+        } else {
+          preview.src = preview.dataset.original || "/images/default-avatar.jpg";
+        }
+      }
+      document.addEventListener('DOMContentLoaded', function() {
+        const avatarPreview = document.getElementById('avatarPreview');
+        avatarPreview.dataset.original = avatarPreview.src;
+      });
+    </script>
+  </main>
+</body>
+</html>

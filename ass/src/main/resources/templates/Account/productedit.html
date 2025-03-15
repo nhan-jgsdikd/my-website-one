@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{/layouts/template :: view(~{::main})}">
+<body>
+    <main th:fragment="main">
+        <style>
+            .card {
+                max-width: 600px;
+                margin: 2rem auto;
+                padding: 1.5rem;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            }
+            .preview-image {
+                max-width: 200px;
+                height: auto;
+                margin-top: 10px;
+                border-radius: 4px;
+            }
+            .form-label {
+                font-weight: 500;
+                margin-bottom: 0.5rem;
+            }
+        </style>
+        <div class="card">
+            <h2 class="text-center mb-4" th:text="${product.id} ? 'Chỉnh sửa sản phẩm' : 'Thêm sản phẩm'"></h2>
+            <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+            <form th:action="@{/admin/save-product}" th:object="${product}" method="post" enctype="multipart/form-data">
+                <input type="hidden" th:field="*{id}">
+                <div class="mb-3">
+                    <label class="form-label">Tên sản phẩm</label>
+                    <input type="text" class="form-control" th:field="*{nameproduct}" required placeholder="Nhập tên sản phẩm">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Giá</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" th:field="*{price}" min="0" step="1000" required placeholder="Nhập giá sản phẩm">
+                        <span class="input-group-text">VNĐ</span>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Mô tả</label>
+                    <textarea class="form-control" th:field="*{description}" rows="3" required placeholder="Nhập mô tả sản phẩm"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Ảnh sản phẩm</label>
+                    <input type="file" class="form-control" name="photoFile" accept="image/*" onchange="previewImage(this)">
+                </div>
+                <div class="d-grid gap-2 mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg">Lưu thay đổi</button>
+                    <a th:href="@{/adminproducts}" class="btn btn-outline-secondary">Quay lại</a>
+                </div>
+            </form>
+        </div>
+        <script>
+            function previewImage(input) {
+                const preview = document.getElementById('imagePreview');
+                const file = input.files[0];
+                if (file) {
+                    const objectURL = URL.createObjectURL(file);
+                    preview.src = objectURL;
+                    preview.onload = function() {
+                        URL.revokeObjectURL(objectURL);
+                    };
+                } else {
+                    preview.src = "/images/default-product.jpg";
+                }
+            }
+        </script>
+    </main>
+</body>
+</html>
